@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaila Birthday</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime&family=Pacifico&display=swap');
+
+body {
+    margin: 0;
+    font-family: "Courier Prime", monospace;
+    background: linear-gradient(135deg, #ffb3d9, #c18bff);
+    color: #fffbe7;
+    overflow-x: hidden;
+}
+
+.center {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+}
+
+button {
+    padding: 12px 22px;
+    background: #b46fff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+button:hover { background: #8d52d6; }
+
+input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px solid #b46fff;
+    width: 260px;
+}
+
+.hidden { display: none; }
+
+.spinner {
+    border: 4px solid #f7c9ff;
+    border-top: 4px solid #8a3dff;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* Photo frame */
+.photo {
+    width: 300px;
+    border-radius: 12px;
+    margin: 25px auto;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 1.2s ease;
+    border: 8px solid #ffffff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    background: #fff;
+}
+
+/* Paintbrush transition */
+@keyframes paintWipe {
+    0% { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+    100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+
+/* Letter (paper style) */
+.letter {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 1.5s ease;
+    padding: 35px;
+    background: url('https://i.imgur.com/8aPjv8B.jpg');
+    background-size: cover;
+    border: 1px solid #e7d7c1;
+    border-radius: 10px;
+    width: 80%;
+    margin: 50px auto;
+    font-family: "Pacifico", cursive;
+    font-size: 22px;
+    letter-spacing: 1px;
+    line-height: 1.7;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    color: #4a2f2a;
+}
+
+#giftBox {
+    width: 150px;
+    cursor: pointer;
+    transition: 0.3s;
+    filter: brightness(1000%);
+}
+#giftBox:hover { transform: scale(1.1); }
+</style>
+</head>
+<body>
+
+<div id="pageLogin" class="center">
+    <h1>Welcoming the most beautiful girl<br>in every universe</h1>
+    <p>Who is celebrating a birthday today?</p>
+    <input type="text" id="username" placeholder="Type your name..." required>
+    <button onclick="startLoading()">Enter</button>
+</div>
+
+<div id="pageLoading" class="center hidden">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+</div>
+
+<div id="pageWelcome" class="center hidden">
+    <h1>Wah orangnya udah datang ✨</h1>
+    <button onclick="goGift()">Open the gift 🎁</button>
+</div>
+
+<div id="pageGift" class="center hidden">
+    <h2>Tap the gift 🎁</h2>
+    <img src="https://cdn-icons-png.flaticon.com/512/2541/2541988.png" id="giftBox">
+</div>
+
+<div id="pagePhotos" class="hidden" style="padding-bottom: 80px; margin-top: 40px;">
+    <img class="photo" id="p1" src="kaila1.jpg">
+    <img class="photo" id="p2" src="kaila2.jpg">
+    <img class="photo" id="p3" src="kaila3.jpg">
+    <img class="photo" id="p4" src="kaila4.jpg">
+
+    <div class="letter" id="letter">
+        Dear Kaila,<br><br>
+        Happy birthday to you. Hopefully you can be better day by day.
+        Nothing I can do to thank all the kindness from you.
+        Nothing better than praying for your success, your health,
+        and our marriage of course.<br><br>
+
+        I LOVE YOU from the deepest of my heart and soul.
+        I cherish you today, adore you forever.<br><br>
+
+        That's it.<br>
+        Sayangkiiiii ❤️
+    </div>
+</div>
+
+<audio id="song" src="kcasaudio.mp3" preload="auto"></audio>
+
+<script>
+// Play bubble sound on button clicks
+const bubble = document.getElementById('bubbleSound');
+function playBubble(){
+    bubble.currentTime = 0;
+    bubble.play();
+}
+// Attach to all buttons
+document.addEventListener('click', e => {
+    if(e.target.tagName === 'BUTTON' || e.target.classList.contains('btn')){
+        playBubble();
+    }
+});
+
+function startLoading() {
+    let nama = document.getElementById("username").value.trim();
+    if (nama === "") {
+        alert("Please enter your name.");
+        return;
+    }
+    document.getElementById("pageLogin").classList.add("hidden");
+    document.getElementById("pageLoading").classList.remove("hidden");
+
+    setTimeout(() => {
+        document.getElementById("pageLoading").classList.add("hidden");
+        document.getElementById("pageWelcome").classList.remove("hidden");
+    }, 1800);
+}
+
+function goGift() {
+    document.getElementById("pageWelcome").classList.add("hidden");
+    document.getElementById("pageGift").classList.remove("hidden");
+}
+
+document.getElementById("giftBox").onclick = function () {
+    document.getElementById("pageGift").classList.add("hidden");
+    document.getElementById("pagePhotos").classList.remove("hidden");
+
+    const audio = document.getElementById("song");
+    audio.volume = 0;
+    audio.play().catch(()=>{});
+
+    let fade = setInterval(() => {
+        if (audio.volume < 1) audio.volume += 0.05;
+        else clearInterval(fade);
+    }, 100);
+
+    setTimeout(()=> showPhoto("p1"), 400);
+    setTimeout(()=> showPhoto("p2"), 1200);
+    setTimeout(()=> showPhoto("p3"), 2000);
+    setTimeout(()=> showPhoto("p4"), 2800);
+
+    setTimeout(()=>{
+        const l = document.getElementById("letter");
+        l.style.opacity = 1;
+        l.style.transform = "translateY(0)";
+        l.style.animation = "paintWipe 1.8s ease forwards";
+    }, 4000);
+};
+
+function showPhoto(id){
+    const p = document.getElementById(id);
+    p.style.opacity = 1;
+    p.style.transform = "translateY(0)";
+}
+</script>
+
+    <!-- Bubble Click Sound -->
+    <audio id="bubbleSound" src="bubble.mp3"></audio>
+
+</body>
+</html>
